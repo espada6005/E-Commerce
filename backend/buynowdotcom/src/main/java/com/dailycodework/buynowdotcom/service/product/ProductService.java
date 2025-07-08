@@ -3,10 +3,11 @@ package com.dailycodework.buynowdotcom.service.product;
 import java.util.List;
 
 import com.dailycodework.buynowdotcom.model.Product;
+import com.dailycodework.buynowdotcom.request.AddProductRequest;
 
 
 public interface ProductService {
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest request);
 
     Product updateProduct(Product product, Long productId);
 
