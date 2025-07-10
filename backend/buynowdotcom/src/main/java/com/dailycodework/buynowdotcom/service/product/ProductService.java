@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.dailycodework.buynowdotcom.model.Product;
 import com.dailycodework.buynowdotcom.request.AddProductRequest;
+import com.dailycodework.buynowdotcom.request.ProductUpdateRequest;
 
 
 public interface ProductService {
     Product addProduct(AddProductRequest request);
 
-    Product updateProduct(Product product, Long productId);
+    Product updateProduct(ProductUpdateRequest request, Long productId);
 
     Product getProductById(Long productId);
 
