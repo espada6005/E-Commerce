@@ -2,6 +2,7 @@ package com.dailycodework.buynowdotcom.service.product;
 
 import java.util.List;
 
+import com.dailycodework.buynowdotcom.dtos.ProductDto;
 import com.dailycodework.buynowdotcom.model.Product;
 import com.dailycodework.buynowdotcom.request.AddProductRequest;
 import com.dailycodework.buynowdotcom.request.ProductUpdateRequest;
@@ -28,4 +29,15 @@ public interface ProductService {
 
     List<Product> getProductsByName(String name);
 
+    List<Product> findDistinctProductsByName();
+
+    List<String> getAllDistinctBrands();
+
+    List<Product> getProductsByCategoryId(Long categoryId);
+
+    List<ProductDto> getConvertedProducts(List<Product> products);
+
+    ProductDto convertToDto(Product product);
+    
 }
+

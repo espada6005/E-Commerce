@@ -1,17 +1,25 @@
 package com.dailycodework.buynowdotcom.service.product;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.dailycodework.buynowdotcom.dtos.ImageDto;
+import com.dailycodework.buynowdotcom.dtos.ProductDto;
 import com.dailycodework.buynowdotcom.model.Cart;
 import com.dailycodework.buynowdotcom.model.CartItem;
 import com.dailycodework.buynowdotcom.model.Category;
+import com.dailycodework.buynowdotcom.model.Image;
 import com.dailycodework.buynowdotcom.model.OrderItem;
 import com.dailycodework.buynowdotcom.model.Product;
 import com.dailycodework.buynowdotcom.repository.CartItemRepository;
 import com.dailycodework.buynowdotcom.repository.CategoryRepository;
+import com.dailycodework.buynowdotcom.repository.ImageRepository;
 import com.dailycodework.buynowdotcom.repository.OrderItemRepository;
 import com.dailycodework.buynowdotcom.repository.ProductRepository;
 import com.dailycodework.buynowdotcom.request.AddProductRequest;
@@ -29,6 +37,8 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ImageRepository imageRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Product addProduct(AddProductRequest request) {
@@ -113,6 +123,51 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsByName(String name) {
         return productRepository.findByName(name);
     }
+
+    @Override
+    public List<Product> findDistinctProductsByName() {
+        List<Product> products = getAllProducts();
+        Map<String, Product> distinctProductMap = products.stream()
+                .collect(
+                    Collectors.toMap(
+                    Product::getName, 
+                    product -> product,
+                    (existing, replacement) -> existing));
+        return new ArrayList<>(distinctProductMap.values());
+    }
+
+    @Override
+    public List<String> getAllDistinctBrands() {
+        return productRepository.findAll()
+                .stream()
+                .map(Product::getBrand)
+                .distinct()
+                .toList();
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryId(Long categoryId) {
+        return productRepository.findAllByCategoryId(categoryId);
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDtos = images.stream()
+                .map(image -> modelMapper.map(image, ImageDto.class))
+                .toList();
+        productDto.setImages(imageDtos);
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return products.stream()
+                .map(this::convertToDto)
+                .toList();
+    }
+
 
     private boolean productExists(String name, String brand) {
         return productRepository.existsByNameAndBrand(name, brand);
