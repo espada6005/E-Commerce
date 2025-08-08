@@ -36,4 +36,13 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> items = new HashSet<>();
 
+    public void removeItem(CartItem cartItem) {
+        // TODO Auto-generated method stub
+    }
+
+    private void updateTotalAmount() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
