@@ -55,7 +55,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<ImageDto> savImages(Long productId, List<MultipartFile> files) {
+    public List<ImageDto> saveImages(Long productId, List<MultipartFile> files) {
         Product product = productService.getProductById(productId);
 
         List<ImageDto> savedImages = new ArrayList<>();
