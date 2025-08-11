@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product addProduct(AddProductRequest request) {
         if (productExists(request.getName(), request.getBrand())) {
-            throw new EntityExistsException(request.getName() + "already exists!");
+            throw new EntityExistsException(request.getName() + " already exists!");
         }
         Category category = Optional.ofNullable(categoryRepository.findByName((request.getCategory().getName())))
                 .orElseGet(() -> {
