@@ -44,6 +44,6 @@ public class Order {
 
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<OrderItem> items = new HashSet<>();
+    private Set<OrderItem> orderItems = new HashSet<>();
 
 }
