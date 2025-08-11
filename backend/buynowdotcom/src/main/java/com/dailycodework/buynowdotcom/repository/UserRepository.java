@@ -1,0 +1,13 @@
+package com.dailycodework.buynowdotcom.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.dailycodework.buynowdotcom.model.User;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    boolean existsByEmail(String email);
+
+    User findbyEmail(String email);
+
+}
