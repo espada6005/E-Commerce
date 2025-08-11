@@ -2,7 +2,6 @@ package com.dailycodework.buynowdotcom.controller;
 
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dailycodework.buynowdotcom.model.Category;
 import com.dailycodework.buynowdotcom.response.ApiResponse;
 import com.dailycodework.buynowdotcom.service.category.CategoryService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
