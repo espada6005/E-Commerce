@@ -37,12 +37,32 @@ public class Cart {
     private Set<CartItem> items = new HashSet<>();
 
     public void removeItem(CartItem cartItem) {
-        // TODO Auto-generated method stub
+        this.items.remove(cartItem);
+        cartItem.setCart(null);
+        updateTotalAmount();
+    }
+
+    public void addItem(CartItem cartItem) {
+        this.items.add(cartItem);
+        cartItem.setCart(this);
+        updateTotalAmount();
+    }
+
+    public void clearCart() {
+        this.items.clear();
+        updateTotalAmount();
     }
 
     private void updateTotalAmount() {
-        // TODO Auto-generated method stub
-        
+        this.totalAmount = items.stream()
+            .map(item -> {
+                BigDecimal unitPrice = item.getUnitPrice();
+                if (unitPrice == null) {
+                    return BigDecimal.ZERO;
+                }
+                return unitPrice.multiply(BigDecimal.valueOf(item.getQuantity()));
+            })
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }
