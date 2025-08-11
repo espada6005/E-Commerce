@@ -8,4 +8,6 @@ import com.dailycodework.buynowdotcom.model.CartItem;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     List<CartItem> findByProductId(Long productId);
+
+    void deleteAllByCartId(Long cartId);
 }
