@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addPProduct(@RequestBody AddProductRequest product) {
+    public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
         Product theProduct = productService.addProduct(product);
         ProductDto productDto = productService.convertToDto(theProduct);
         return ResponseEntity.ok(new ApiResponse("add product success!", productDto));
