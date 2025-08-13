@@ -18,5 +18,10 @@
     "name": "auth.token.jwtSecret",
     "type": "java.lang.String",
     "description": "A description for 'auth.token.jwtSecret'"
+  },
+  {
+    "name": "app.useSecureCookie",
+    "type": "java.lang.String",
+    "description": "A description for 'app.useSecureCookie'"
   }
 ]}
