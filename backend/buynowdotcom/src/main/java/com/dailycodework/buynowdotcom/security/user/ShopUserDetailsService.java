@@ -21,7 +21,7 @@ public class ShopUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = Optional.ofNullable(userRepository.findbyEmail(email))
+        User user = Optional.ofNullable(userRepository.findByEmail(email))
                 .orElseThrow(() -> new EntityNotFoundException("User not found!"));
         return ShopUserDetails.buildUserDetails(user);
     }
