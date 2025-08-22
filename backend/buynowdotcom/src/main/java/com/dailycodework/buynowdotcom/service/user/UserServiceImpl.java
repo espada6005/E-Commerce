@@ -3,6 +3,8 @@ package com.dailycodework.buynowdotcom.service.user;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.dailycodework.buynowdotcom.dtos.UserDto;
@@ -56,13 +58,20 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long userId) {
         userRepository.findById(userId)
             .ifPresentOrElse(userRepository::delete, () -> {
-                throw new EntityNotFoundException("User not found");
             });
     }
 
     @Override
     public UserDto convertUserToDto(User user) {
         return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            return Optional.ofNullable(userRepository.findByEmail(email))
+                .orElseThrow(() -> new EntityNotFoundException("Login required!"));
     }
 
 }
