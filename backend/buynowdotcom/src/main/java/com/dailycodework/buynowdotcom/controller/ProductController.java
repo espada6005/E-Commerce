@@ -3,6 +3,12 @@ package com.dailycodework.buynowdotcom.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +21,6 @@ import com.dailycodework.buynowdotcom.response.ApiResponse;
 import com.dailycodework.buynowdotcom.service.product.ProductService;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @RestController
 @RequiredArgsConstructor
@@ -101,5 +98,23 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse("success", convertedProducts));
     }
     
+    @GetMapping("/category/{categoryId}/products")
+    public ResponseEntity<ApiResponse> findProductsByCategoryId(@PathVariable Long categoryId) {
+        List<Product> products = productService.getProductsByCategoryId(categoryId);
+        List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
+        return ResponseEntity.ok(new ApiResponse("success", convertedProducts));
+    }
+
+    @GetMapping("/distinct/products")
+    public ResponseEntity<ApiResponse> getDistinctProductsByName() {
+        List<Product> products = productService.findDistinctProductsByName();
+        List<ProductDto> productDtos = productService.getConvertedProducts(products);
+        return ResponseEntity.ok(new ApiResponse("Found", productDtos));
+    }
+
+    @GetMapping("/distinct/brands")
+    public ResponseEntity<ApiResponse> getDistinctBrands() {
+        return ResponseEntity.ok(new ApiResponse("Found", productService.getAllDistinctBrands()));
+    }
 
 }
