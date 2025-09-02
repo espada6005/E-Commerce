@@ -2,7 +2,8 @@ package com.dailycodework.buynowdotcom.dtos;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale.Category;
+
+import com.dailycodework.buynowdotcom.model.Category;
 
 import lombok.Data;
 
