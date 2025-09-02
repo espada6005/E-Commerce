@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 export const ProductImage = ({ productId }) => {
     const [productImg, setProductImg] = useState(null);
@@ -34,5 +34,7 @@ export const ProductImage = ({ productId }) => {
         <div>
             <img src={productImg} alt="Product Image" />
         </div>
-    )
-}
+    );
+};
+
+export default ProductImage;

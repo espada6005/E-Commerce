@@ -3,9 +3,9 @@ import {
     RouterProvider,
     createBrowserRouter,
     createRoutesFromElements
-} from "react-router-dom"
-import RootLayout from "./component/layout/RootLayout"
-import Home from "./component/home/Home"
+} from "react-router-dom";
+import RootLayout from "./component/layout/RootLayout";
+import Home from "./component/home/Home";
 
 function App() {
     const router = createBrowserRouter(
@@ -22,4 +22,4 @@ function App() {
 
 }
 
-export default App
+export default App;
