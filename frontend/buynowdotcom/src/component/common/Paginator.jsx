@@ -1,4 +1,3 @@
-import React from 'react'
 import { Pagination } from 'react-bootstrap'
 
 const Paginator = ({ itemsPerPage, totalItems, currentPage, paginate }) => {
@@ -17,10 +16,10 @@ const Paginator = ({ itemsPerPage, totalItems, currentPage, paginate }) => {
     }
 
     return (
-        <div className='d-frex justify-content-center me-5'>
+        <div className='d-flex justify-content-center me-5'>
             <Pagination>{items}</Pagination>
         </div>
-    )
-}
+    );
+};
 
 export default Paginator
