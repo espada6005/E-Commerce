@@ -70,7 +70,7 @@ const Home = () => {
                             <p className='product-description'>
                                 {product.name} - {product.description}
                             </p>
-                            <h4 className='price'>{product.price}</h4>
+                            <h4 className='price'>${product.price}</h4>
                             <p className='text-success'>{product.inventory} in stock.</p>
                             <Link to={`/product/${product.id}`} className='shop-now-button'>
                                 {" "}
