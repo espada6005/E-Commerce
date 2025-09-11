@@ -1,19 +1,8 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ProductImage from '../utils/ProductImage';
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react';
-import { getAllProducts } from '../../store/features/productSlice';
 
-const ProductCard = () => {
-    const dispatch = useDispatch();
-    const products = useSelector((state) => state.product.products);
-
-    console.log(products);
-
-    useEffect(() => {
-        dispatch(getAllProducts());
-    }, [dispatch]);
+const ProductCard = ({ products }) => {
 
     return (
         <main className='row m-2'>
