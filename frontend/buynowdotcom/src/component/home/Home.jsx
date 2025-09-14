@@ -6,15 +6,16 @@ import { Link } from 'react-router-dom';
 import ProductImage from '../utils/ProductImage';
 import { toast, ToastContainer } from 'react-toastify';
 import { getDistinctProductsByName } from '../services/ProductService';
-import { useSelector } from 'react-redux';
+import { setTotalItems } from '../../store/features/paginationSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Home = () => {
+    const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const { searchQuery, selectedCategory } = useSelector((state) => state.search);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const { itemsPerPage, currentPage } = useSelector((state) => state.pagination);
 
     useEffect(() => {
         const getProducts = async () => {
@@ -43,7 +44,10 @@ const Home = () => {
         setFilteredProducts(results);
     }, [products, selectedCategory, searchQuery]);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    useEffect(() => {
+        dispatch(setTotalItems(filteredProducts.length));
+    }, [filteredProducts, dispatch]);
+
     const indexOfLastProduct = currentPage * itemsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
     const currentProducts = filteredProducts.slice(
@@ -81,12 +85,7 @@ const Home = () => {
                 ))}
             </div >
 
-            <Paginator
-                itemsPerPage={itemsPerPage}
-                totalItems={filteredProducts.length}
-                currentPage={currentPage}
-                paginate={paginate}
-            />
+            <Paginator />
         </>
     );
 };

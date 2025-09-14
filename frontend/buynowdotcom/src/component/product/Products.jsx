@@ -3,12 +3,15 @@ import SearchBar from '../search/SearchBar';
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react';
 import { getAllProducts } from '../../store/features/productSlice';
+import Paginator from '../common/Paginator';
+import { setTotalItems } from '../../store/features/paginationSlice';
 
 export const Products = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const dispatch = useDispatch();
     const products = useSelector((state) => state.product.products);
     const { searchQuery, selectedCategory } = useSelector((state) => state.search);
+    const { itemsPerPage, currentPage } = useSelector((state) => state.pagination);
 
     useEffect(() => {
         dispatch(getAllProducts());
@@ -28,6 +31,17 @@ export const Products = () => {
         setFilteredProducts(results);
     }, [products, selectedCategory, searchQuery]);
 
+    useEffect(() => {
+        dispatch(setTotalItems(filteredProducts.length));
+    }, [filteredProducts, dispatch]);
+
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentProducts = filteredProducts.slice(
+        indexOfFirstProduct,
+        indexOfLastProduct
+    );
+
     return (
         <>
             <div className='d-flex justify-content-center'>
@@ -43,8 +57,10 @@ export const Products = () => {
                     Sidebar coming here...
                 </aside>
                 <section style={{ flex: 1 }}>
-                    <ProductCard products={filteredProducts} />
-                    <div className='pagination'>Pagination coming here...</div>
+                    <ProductCard products={currentProducts} />
+                    <div className='pagination'>
+                        <Paginator />
+                    </div>
                 </section>
             </div>
         </>
