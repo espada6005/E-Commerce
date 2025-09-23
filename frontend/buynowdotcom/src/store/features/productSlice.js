@@ -9,8 +9,27 @@ export const getAllProducts = createAsyncThunk(
     }
 );
 
+export const getAllBrands = createAsyncThunk(
+    'product/getAllBrands',
+    async () => {
+        const response = await api.get('/products/distinct/brands');
+        return response.data.data;
+    }
+);
+
+export const getDistinctProductsByName = createAsyncThunk(
+    "product/getDistinctProductsByName",
+    async () => {
+        const response = await api.get("/products/distinct/products");
+        return response.data.data;
+    }
+);
+
 const initialState = {
     products: [],
+    distinctProducts: [],
+    brands: [],
+    selectedBrands: [],
     errorMessage: null,
     isLoading: true,
 }
@@ -18,7 +37,16 @@ const initialState = {
 const productSlice = createSlice({
     name: 'product',
     initialState,
-    reducers: {},
+    reducers: {
+        filterByBrands: (state, action) => {
+            const { brand, isChecked } = action.payload;
+            if (isChecked) {
+                state.selectedBrands.push(brand);
+            } else {
+                state.selectedBrands = state.selectedBrands.filter((b) => b !== brand);
+            }
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllProducts.fulfilled, (state, action) => {
@@ -26,9 +54,19 @@ const productSlice = createSlice({
                 state.errorMessage = null;
                 state.isLoading = false;
             })
+            .addCase(getAllProducts.rejected, (state, action) => {
+                state.errorMessage = action.error.message;
+            })
+            .addCase(getAllBrands.fulfilled, (state, action) => {
+                state.brands = action.payload;
+                state.isLoading = false;
+            })
+            .addCase(getDistinctProductsByName.fulfilled, (state, action) => {
+                state.distinctProducts = action.payload;
+                state.isLoading = false;
+            });
     }
 });
 
-export const { } = productSlice.actions
-
+export const { filterByBrands } = productSlice.actions;
 export default productSlice.reducer
